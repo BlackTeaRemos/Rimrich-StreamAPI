@@ -1,0 +1,75 @@
+{
+  // Variant-driven caravan template (coherent bundle selection).
+  // Uses endpoint: POST /api/caravans/spawn
+  "id": "caravan_random_variants",
+  "label": "Caravan (Random Variants)",
+  "cost": 360,
+  "probability": 0.95,
+  "tags": ["event", "caravan", "variable"],
+
+  "notification": {
+    "delivery": { "$param": "variant.delivery" },
+    "severity": { "$param": "variant.severity" },
+    "title": { "$param": "variant.title" },
+    "message": { "$param": "variant.message" }
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "variant": {
+      "description": "A coherent caravan/visitor bundle: mode + faction + notification.",
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          {
+            "weight": 1.1,
+            "value": {
+              "title": "Friendly Traders",
+              "message": "A trader caravan arrived (triggered by Twitch).",
+              "severity": "positive",
+              "delivery": "letter",
+              "factionDefName": "OutlanderCivil",
+              "mode": "TraderCaravanArrival"
+            }
+          },
+          {
+            "weight": 0.9,
+            "value": {
+              "title": "Visitors",
+              "message": "A visitor group arrived (triggered by Twitch).",
+              "severity": "neutral",
+              "delivery": "message",
+              "factionDefName": "OutlanderCivil",
+              "mode": "VisitorGroup"
+            }
+          },
+          {
+            "weight": 0.5,
+            "value": {
+              "title": "Empire Delegation",
+              "message": "An Empire visitor group arrived (triggered by Twitch).",
+              "severity": "neutral",
+              "delivery": "message",
+              "factionDefName": "Empire",
+              "mode": "VisitorGroup"
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "factionDefName": { "$param": "variant.factionDefName" },
+        "silent": true,
+        "mode": { "$param": "variant.mode" }
+      }
+    }
+  ]
+}

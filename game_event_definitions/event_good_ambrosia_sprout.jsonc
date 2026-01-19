@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_good_ambrosia_sprout",
+  "label": "Ambrosia Sprout",
+  "cost": 230,
+  "userMessage": "Ambrosia Sprout",
+  "probability": 0.8,
+  "tags": ["event", "good"],
+  "notification": {
+    "delivery": "message",
+    "severity": "positive",
+    "title": "Ambrosia",
+    "message": "Ambrosia sprout was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "AmbrosiaSprout",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,88 @@
+{
+  // Variant-driven raid template (coherent bundle selection).
+  // Uses endpoint: POST /api/raids/spawn
+  "id": "raid_random_variants",
+  "label": "Raid (Random Variants)",
+  "cost": 600,
+  "probability": 0.7,
+  "tags": ["event", "raid", "variable"],
+
+  "notification": {
+    "delivery": "letter",
+    "severity": { "$param": "variant.severity" },
+    "title": { "$param": "variant.title" },
+    "message": { "$param": "variant.message" }
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "variant": {
+      "description": "A coherent raid bundle: faction + incident + difficulty + notification.",
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          {
+            "weight": 1.2,
+            "value": {
+              "title": "Raid (Pirates)",
+              "message": "A pirate raid was triggered by Twitch.",
+              "severity": "negative",
+              "factionDefName": "Pirate",
+              "incidentDefName": "RaidEnemy",
+              "pointsFactor": 1.0
+            }
+          },
+          {
+            "weight": 0.9,
+            "value": {
+              "title": "Raid (Tribe)",
+              "message": "A tribal raid was triggered by Twitch.",
+              "severity": "negative",
+              "factionDefName": "TribeRough",
+              "incidentDefName": "RaidEnemy",
+              "pointsFactor": 0.9
+            }
+          },
+          {
+            "weight": 0.7,
+            "value": {
+              "title": "Raid (Mechanoids)",
+              "message": "A mechanoid raid was triggered by Twitch.",
+              "severity": "negative",
+              "factionDefName": "Mechanoid",
+              "incidentDefName": "RaidMechanoids",
+              "pointsFactor": 1.0
+            }
+          },
+          {
+            "weight": 0.35,
+            "value": {
+              "title": "Siege",
+              "message": "A siege was triggered by Twitch.",
+              "severity": "negative",
+              "factionDefName": "Pirate",
+              "incidentDefName": "Siege",
+              "pointsFactor": 1.0
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "factionDefName": { "$param": "variant.factionDefName" },
+        "method": "Incident",
+        "silent": true,
+        "incidentDefName": { "$param": "variant.incidentDefName" },
+        "pointsFactor": { "$param": "variant.pointsFactor" }
+      }
+    }
+  ]
+}

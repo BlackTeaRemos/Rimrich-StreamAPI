@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_affecting_stranger_in_black",
+  "label": "Stranger In Black",
+  "userMessage": "Stranger In Black",
+  "cost": 240,
+  "probability": 0.25,
+  "tags": ["event", "affecting"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "positive",
+    "title": "Stranger in Black",
+    "message": "A stranger in black joined (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "StrangerInBlackJoin",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

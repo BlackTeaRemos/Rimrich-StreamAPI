@@ -1,0 +1,26 @@
+{
+  // Uses endpoint: POST /api/protection/bad-incidents
+  // Blocks API-triggered bad incidents (Threat*, MiscBad, Disease*) and raids for a duration.
+  "id": "event_protection_all_bad_incidents",
+  "label": "Shield Bad Incidents",
+  "cost": 1200,
+  "userMessage": "Shield Bad Incidents",
+  "probability": 0.75,
+  "tags": ["event", "protection", "good"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "positive",
+    "title": "Colony Shield",
+    "message": "A shield was activated against all bad incidents."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/protection/bad-incidents",
+      "payload": "json",
+      "body": {
+        "durationSeconds": 180
+      }
+    }
+  ]
+}

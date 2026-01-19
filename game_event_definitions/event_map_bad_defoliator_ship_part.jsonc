@@ -1,0 +1,30 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  // NOTE: This incident may not exist in all RimWorld versions/modlists.
+  "id": "event_map_bad_defoliator_ship_part",
+  "label": "Defoliator Ship Part",
+  "cost": 550,
+  "userMessage": "Defoliator Ship Part",
+  "probability": 0.25,
+  "tags": ["event", "map", "bad"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Defoliator",
+    "message": "A defoliator ship part was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "DefoliatorShipPartCrash",
+        "forced": true,
+        "silent": true,
+        "points": 900
+      }
+    }
+  ]
+}

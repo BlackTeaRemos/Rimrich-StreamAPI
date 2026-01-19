@@ -1,0 +1,13 @@
+{
+  "/api/pawns/groups": {
+    "get": {
+      "tags": ["Pawns"],
+      "summary": "List pawns grouped by allegiance",
+      "description": "Returns spawned pawns grouped into enemyPawns, enemyAnimals, neutralPawns, neutralAnimals, and playerAnimals.",
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

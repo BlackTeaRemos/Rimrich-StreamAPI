@@ -1,0 +1,27 @@
+{
+  // Uses existing endpoint: POST /api/caravans/spawn
+  // NOTE: Set mapId and factionDefName to valid values for your save/modlist.
+  "id": "spawn_apparel_armor_caravan",
+  "label": "Armor Caravan",
+  "cost": 450,
+  "userMessage": "Armor Caravan",
+  "probability": 0.5,
+  "tags": ["spawn", "items", "apparel", "armor", "caravan"],
+  "notification": { "delivery": "message", "severity": "positive", "title": "Twitch", "message": "Spawn Armor (Trader Caravan)" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "OutlanderCivil", // placeholder; confirm via GET /api/factions
+        "pawnCount": 3,
+        "cargo": [
+          { "thingDefName": "Apparel_FlakVest", "count": 1 },
+          { "thingDefName": "Apparel_PowerArmor", "count": 1 }
+        ]
+      }
+    }
+  ]
+}

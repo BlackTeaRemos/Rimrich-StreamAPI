@@ -1,0 +1,31 @@
+{
+  // Uses endpoint: POST /api/raids/spawn
+  // NOTE: Set mapId and factionDefName to valid values (confirm via GET /api/factions).
+  "id": "event_raid_siege_pirates",
+  "label": "Siege Pirate Raid",
+  "cost": 550,
+  "userMessage": "Siege Pirate Raid",
+  "probability": 0.35,
+  "tags": ["event", "raid", "siege"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Siege",
+    "message": "A siege was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "Pirate",
+        "method": "Incident",
+        "silent": true,
+        "incidentDefName": "Siege",
+        "pointsFactor": 1.0
+      }
+    }
+  ]
+}

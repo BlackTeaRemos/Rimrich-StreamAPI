@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_good_wanderer_sick",
+  "label": "Sick Wanderer Joins",
+  "cost": 80,
+  "userMessage": "Sick Wanderer Joins",
+  "probability": 0.55,
+  "tags": ["event", "good", "affecting"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "neutral",
+    "title": "Wanderer Joins",
+    "message": "A sick wanderer joined (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "WandererJoinsSick",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

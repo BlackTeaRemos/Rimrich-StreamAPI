@@ -1,0 +1,29 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_global_psychic_drone",
+  "label": "Psychic Drone",
+  "cost": 450,
+  "userMessage": "Psychic Drone",
+  "probability": 0.6,
+  "tags": ["event", "global"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Psychic Drone",
+    "message": "A psychic drone was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "PsychicDrone",
+        "forced": true,
+        "silent": true,
+        "points": 500
+      }
+    }
+  ]
+}

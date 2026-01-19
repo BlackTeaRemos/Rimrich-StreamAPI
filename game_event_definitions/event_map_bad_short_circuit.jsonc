@@ -1,0 +1,29 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_map_bad_short_circuit",
+  "label": "Short Circuit",
+  "cost": 70,
+  "userMessage": "Short Circuit",
+  "probability": 0.75,
+  "tags": ["event", "map", "bad"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Short Circuit",
+    "message": "A short circuit was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "ShortCircuit",
+        "forced": true,
+        "silent": true,
+        "points": 650
+      }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  // Uses endpoint: POST /api/raids/spawn
+  // NOTE: raidStrategyDefName/arrivalModeDefName are best-effort and may vary by game version.
+  "id": "event_raid_breachers_pirates",
+  "label": "Breachers Pirate Raid",
+  "cost": 450,
+  "userMessage": "Breachers Pirate Raid",
+  "probability": 0.3,
+  "tags": ["event", "raid", "breach"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Breachers",
+    "message": "A breacher raid was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "Pirate",
+        "method": "Incident",
+        "silent": true,
+        "incidentDefName": "RaidEnemy",
+        "raidStrategyDefName": "Breachers",
+        "arrivalModeDefName": "EdgeWalkIn",
+        "pointsFactor": 1.1
+      }
+    }
+  ]
+}

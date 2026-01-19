@@ -1,0 +1,13 @@
+{
+  "/api/raids/catalog": {
+    "get": {
+      "tags": ["Raids"],
+      "summary": "List raid-related defs",
+      "description": "Lists raid strategies, arrival modes, and factions (including hostility flag).",
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

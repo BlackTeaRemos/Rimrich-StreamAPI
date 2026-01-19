@@ -1,0 +1,18 @@
+{
+  // Uses endpoint: POST /api/pawns/{pawnId}/hediffs/add
+  "id": "event_spawn_disease_flu",
+  "label": "Flu Outbreak",
+  "cost": 250,
+  "userMessage": "Flu Outbreak",
+  "probability": 0.35,
+  "tags": ["event", "disease"],
+  "notification": { "delivery": "letter", "severity": "negative", "title": "Spawn Disease: Flu", "message": "A disease was inflicted by Twitch." },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/pawns/{pawnId}/hediffs/add",
+      "payload": "json",
+      "body": { "pawnId": 0, "hediffDefName": "Flu", "severity": 0.3 }
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_weather_flashstorm",
+  "label": "Flashstorm",
+  "cost": 150,
+  "userMessage": "Flashstorm",
+  "probability": 0.55,
+  "tags": ["event", "weather"],
+  "notification": {
+    "delivery": "message",
+    "severity": "negative",
+    "title": "Flashstorm",
+    "message": "A flashstorm was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "Flashstorm",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

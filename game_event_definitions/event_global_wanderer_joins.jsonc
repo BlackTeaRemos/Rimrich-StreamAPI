@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_global_wanderer_joins",
+  "label": "Global Wanderer Joins",
+  "cost": 130,
+  "userMessage": "Global Wanderer Joins",
+  "probability": 0.65,
+  "tags": ["event", "global", "affecting"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "positive",
+    "title": "Wanderer Joins",
+    "message": "A wanderer joined (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "WandererJoin",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

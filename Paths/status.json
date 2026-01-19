@@ -1,0 +1,13 @@
+{
+  "/api/status": {
+    "get": {
+      "tags": ["Status"],
+      "summary": "Get server/game status",
+      "description": "Returns a small snapshot indicating whether game context is available and basic counts.",
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

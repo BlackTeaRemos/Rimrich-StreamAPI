@@ -1,0 +1,29 @@
+{
+  // Uses endpoint: POST /api/caravans/spawn
+  // NOTE: Set mapId and factionDefName to valid values (confirm via GET /api/factions).
+  "id": "event_caravan_trader_friendly",
+  "label": "Friendly Traders",
+  "cost": 190,
+  "userMessage": "Friendly Traders",
+  "probability": 0.8,
+  "tags": ["event", "caravan", "trader"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "positive",
+    "title": "Friendly Traders",
+    "message": "A friendly trader caravan arrived (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "OutlanderCivil",
+        "silent": true,
+        "mode": "TraderCaravanArrival"
+      }
+    }
+  ]
+}

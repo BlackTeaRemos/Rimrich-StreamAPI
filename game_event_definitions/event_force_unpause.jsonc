@@ -1,0 +1,24 @@
+{
+  // Uses existing endpoints: POST /api/pause and POST /api/timespeed
+  "id": "event_force_unpause",
+  "label": "Force Unpause",
+  "cost": 60,
+  "userMessage": "Force Unpause",
+  "probability": 0.5,
+  "tags": ["event", "time", "pause"],
+  "notification": { "delivery": "message", "severity": "info", "title": "Twitch", "message": "Force Unpause" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/pause",
+      "payload": "json",
+      "body": { "paused": false }
+    },
+    {
+      "method": "POST",
+      "path": "/api/timespeed",
+      "payload": "json",
+      "body": { "speed": "Normal" }
+    }
+  ]
+}

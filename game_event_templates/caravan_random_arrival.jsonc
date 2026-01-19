@@ -1,0 +1,54 @@
+{
+  // Random incident-driven caravan/visitor group.
+  // Uses endpoint: POST /api/caravans/spawn
+  "id": "caravan_random_arrival",
+  "label": "Caravan (Random Arrival)",
+  "cost": 320,
+  "probability": 0.9,
+  "tags": ["event", "caravan", "variable"],
+
+  "notification": {
+    "delivery": "message",
+    "severity": "neutral",
+    "title": "Caravan",
+    "message": "A random caravan/visitor group arrived (triggered by Twitch)."
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "mode": {
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          { "value": "TraderCaravanArrival", "weight": 1.0 },
+          { "value": "VisitorGroup", "weight": 0.9 }
+        ]
+      }
+    },
+    "factionDefName": {
+      "description": "Tune for your save/modlist",
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          { "value": "OutlanderCivil", "weight": 1.2 },
+          { "value": "Empire", "weight": 0.6 },
+          { "value": "OutlanderRough", "weight": 0.7 }
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "factionDefName": { "$param": "factionDefName" },
+        "silent": true,
+        "mode": { "$param": "mode" }
+      }
+    }
+  ]
+}

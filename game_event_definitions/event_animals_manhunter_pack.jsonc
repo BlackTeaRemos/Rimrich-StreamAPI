@@ -1,0 +1,30 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  // NOTE: You can adjust points to control pack size/difficulty.
+  "id": "event_animals_manhunter_pack",
+  "label": "Manhunter Pack",
+  "userMessage": "Manhunter Pack",
+  "cost": 480,
+  "probability": 0.55,
+  "tags": ["event", "animals", "danger"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Manhunter Pack",
+    "message": "A manhunter pack was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "ManhunterPack",
+        "forced": true,
+        "silent": true,
+        "points": 800
+      }
+    }
+  ]
+}

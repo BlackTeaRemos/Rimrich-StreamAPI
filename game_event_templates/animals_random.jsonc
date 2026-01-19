@@ -1,0 +1,46 @@
+{
+  // Random animals incident.
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "animals_random",
+  "label": "Animals (Random)",
+  "cost": 320,
+  "probability": 1.0,
+  "tags": ["event", "animals", "variable"],
+
+  "notification": {
+    "delivery": "message",
+    "severity": "neutral",
+    "title": "Animals",
+    "message": "A random animals event was triggered by Twitch."
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "incidentDefName": {
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          { "value": "HerdMigration", "weight": 1.0 },
+          { "value": "ThrumboPasses", "weight": 0.25 },
+          { "value": "ManhunterPack", "weight": 0.55 }
+        ]
+      }
+    },
+    "points": { "distribution": { "kind": "int_range", "min": 250, "max": 1200 } }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "incidentDefName": { "$param": "incidentDefName" },
+        "forced": true,
+        "silent": true,
+        "points": { "$param": "points" }
+      }
+    }
+  ]
+}

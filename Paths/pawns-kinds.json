@@ -1,0 +1,21 @@
+{
+  "/api/pawns/kinds": {
+    "get": {
+      "tags": ["Pawns"],
+      "summary": "List pawn kinds",
+      "parameters": [
+        {
+          "name": "presentOnly",
+          "in": "query",
+          "required": false,
+          "schema": { "type": "boolean" },
+          "description": "If true, only include kinds that have at least one spawned pawn on loaded maps."
+        }
+      ],
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

@@ -1,0 +1,77 @@
+{
+  "/api/protection": {
+    "get": {
+      "tags": [
+        "Protection"
+      ],
+      "summary": "Get incident protection status",
+      "responses": {
+        "200": {
+          "description": "Success"
+        }
+      }
+    }
+  },
+  "/api/protection/external-bad-events": {
+    "post": {
+      "tags": [
+        "Protection"
+      ],
+      "summary": "Enable protection from external threats",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "durationSeconds": {
+                  "type": "integer",
+                  "format": "int32",
+                  "default": 0,
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Enabled"
+        }
+      }
+    }
+  },
+  "/api/protection/bad-incidents": {
+    "post": {
+      "tags": [
+        "Protection"
+      ],
+      "summary": "Enable protection from all threat incidents",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "durationSeconds": {
+                  "type": "integer",
+                  "format": "int32",
+                  "default": 0,
+                  "minimum": 0
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Enabled"
+        }
+      }
+    }
+  }
+}

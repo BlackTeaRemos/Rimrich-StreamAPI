@@ -1,0 +1,23 @@
+{
+  "/api/maps/{mapId}": {
+    "get": {
+      "tags": ["Maps"],
+      "summary": "Get map by id",
+      "parameters": [
+        {
+          "name": "mapId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" },
+          "description": "Map unique id (Map.uniqueID)."
+        }
+      ],
+      "responses": {
+        "200": { "description": "Success" },
+        "400": { "description": "Invalid mapId" },
+        "404": { "description": "Map not found" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

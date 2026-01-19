@@ -1,0 +1,18 @@
+{
+  // Uses endpoint: POST /api/colonists/create/budget
+  "id": "spawn_colonist_good",
+  "label": "Good Colonist",
+  "cost": 800,
+  "userMessage": "Good Colonist",
+  "probability": 0.9,
+  "tags": ["spawn", "colonist", "quality:good"],
+  "notification": { "delivery": "message", "severity": "positive", "title": "Twitch", "message": "Spawn Colonist (Good)" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/colonists/create/budget",
+      "payload": "json",
+      "body": { "mapId": 0, "totalBudget": 200, "skillBudget": 110, "passionBudget": 50, "traitBudget": 40, "equipped": false }
+    }
+  ]
+}

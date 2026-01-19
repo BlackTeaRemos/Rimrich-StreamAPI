@@ -1,0 +1,19 @@
+{
+  // Uses endpoint: POST /api/locks
+  // This is meant to *prevent* the player from pausing (not just unpause once).
+  "id": "event_disable_pause",
+  "label": "Disable Pause",
+  "cost": 70,
+  "userMessage": "Disable Pause",
+  "probability": 0.25,
+  "tags": ["event", "time", "pause"],
+  "notification": { "delivery": "message", "severity": "info", "title": "Twitch", "message": "Disable Pause (Temporary)" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/locks",
+      "payload": "json",
+      "body": { "lockId": "pause", "locked": true, "durationSeconds": 60 }
+    }
+  ]
+}

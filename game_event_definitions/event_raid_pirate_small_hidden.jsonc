@@ -1,0 +1,24 @@
+{
+  // Uses existing endpoint: POST /api/raids/spawn
+  // NOTE: Set mapId and factionDefName to valid values (confirm via GET /api/factions).
+  "id": "event_raid_pirate_small_hidden",
+  "label": "Pirate Small Raid",
+  "cost": 250,
+  "userMessage": "Pirate Small Raid",
+  "probability": 0.2,
+  "tags": ["event", "raid", "pirate", "small", "hidden"],
+  "notification": { "delivery": "none" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "Pirate", // placeholder
+        "method": "Incident",
+        "pointsFactor": 0.35
+      }
+    }
+  ]
+}

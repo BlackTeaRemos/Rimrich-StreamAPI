@@ -1,0 +1,37 @@
+{
+  "/api/things/spawn": {
+    "post": {
+      "tags": ["Things"],
+      "summary": "Spawn a thing (item) on a map",
+      "description": "Spawns a ThingDef by defName. Large counts are split into multiple stacks as needed.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer", "format": "int32" },
+                "thingDefName": { "type": "string" },
+                "count": { "type": "integer", "format": "int32" },
+                "mode": {
+                  "type": "string",
+                  "enum": ["DropPods", "NearColonists", "Edge", "Cursor", "Position"],
+                  "default": "DropPods"
+                },
+                "x": { "type": "integer", "format": "int32", "nullable": true },
+                "z": { "type": "integer", "format": "int32", "nullable": true }
+              },
+              "required": ["mapId", "thingDefName", "count"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Spawned" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

@@ -1,0 +1,86 @@
+{
+  // Variant-driven animals incident template.
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "animals_random_variants",
+  "label": "Animals (Random Variants)",
+  "cost": 340,
+  "probability": 1.0,
+  "tags": ["event", "animals", "variable"],
+
+  "notification": {
+    "delivery": { "$param": "variant.delivery" },
+    "severity": { "$param": "variant.severity" },
+    "title": { "$param": "variant.title" },
+    "message": { "$param": "variant.message" }
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "variant": {
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          {
+            "weight": 1.0,
+            "value": {
+              "title": "Herd Migration",
+              "message": "A herd migration was triggered by Twitch.",
+              "severity": "neutral",
+              "delivery": "message",
+              "incidentDefName": "HerdMigration",
+              "points": 450
+            }
+          },
+          {
+            "weight": 0.55,
+            "value": {
+              "title": "Manhunter Pack",
+              "message": "A manhunter pack was triggered by Twitch.",
+              "severity": "negative",
+              "delivery": "letter",
+              "incidentDefName": "ManhunterPack",
+              "points": 900
+            }
+          },
+          {
+            "weight": 0.45,
+            "value": {
+              "title": "Mad Animals",
+              "message": "Mad animals were triggered by Twitch.",
+              "severity": "negative",
+              "delivery": "letter",
+              "incidentDefName": "MadAnimals",
+              "points": 700
+            }
+          },
+          {
+            "weight": 0.2,
+            "value": {
+              "title": "Thrumbo Passes",
+              "message": "Thrumbos were triggered by Twitch.",
+              "severity": "positive",
+              "delivery": "letter",
+              "incidentDefName": "ThrumboPasses",
+              "points": 650
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "incidentDefName": { "$param": "variant.incidentDefName" },
+        "forced": true,
+        "silent": true,
+        "points": { "$param": "variant.points" }
+      }
+    }
+  ]
+}

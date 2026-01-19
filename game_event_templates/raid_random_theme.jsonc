@@ -1,0 +1,56 @@
+{
+  // Variable event template example.
+  // Picks a random raid "theme" by choosing a faction + points factor.
+  // Uses existing endpoint: POST /api/raids/spawn
+  "id": "raid_random_theme",
+  "label": "Raid (Random Theme)",
+  "cost": 420,
+  "probability": 0.6,
+  "tags": ["event", "raid", "variable"],
+
+  "parameters": {
+    "mapId": {
+      "distribution": { "kind": "fixed", "value": 0 }
+    },
+    "raidTheme": {
+      "description": "Theme label for internal selection",
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          { "value": "neolithic", "weight": 1.0 },
+          { "value": "pirate", "weight": 1.3 },
+          { "value": "mech", "weight": 0.8 }
+        ]
+      }
+    },
+    "factionDefName": {
+      "description": "Faction defName; tune these for your mods",
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          { "value": "TribeRough", "weight": 1.0 },
+          { "value": "Pirate", "weight": 1.3 },
+          { "value": "Mechanoid", "weight": 0.8 }
+        ]
+      }
+    },
+    "pointsFactor": {
+      "distribution": { "kind": "float_range", "min": 0.85, "max": 1.10 }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "factionDefName": { "$param": "factionDefName" },
+        "method": "Incident",
+        "silent": true,
+        "pointsFactor": { "$param": "pointsFactor" }
+      }
+    }
+  ]
+}

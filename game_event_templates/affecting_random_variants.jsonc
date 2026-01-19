@@ -1,0 +1,59 @@
+{
+  // Variant-driven affecting/colonist incident template.
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "affecting_random_variants",
+  "label": "Affecting Event (Random Variants)",
+  "cost": 520,
+  "probability": 0.7,
+  "tags": ["event", "affecting", "colonists", "variable"],
+
+  "notification": {
+    "delivery": "letter",
+    "severity": { "$param": "variant.severity" },
+    "title": { "$param": "variant.title" },
+    "message": { "$param": "variant.message" }
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "variant": {
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          {
+            "weight": 0.85,
+            "value": {
+              "title": "Wanderer Joins",
+              "message": "A new colonist joined (triggered by Twitch).",
+              "severity": "positive",
+              "incidentDefName": "WandererJoin"
+            }
+          },
+          {
+            "weight": 0.6,
+            "value": {
+              "title": "Refugee Chased",
+              "message": "A refugee event was triggered by Twitch.",
+              "severity": "neutral",
+              "incidentDefName": "RefugeeChased"
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "incidentDefName": { "$param": "variant.incidentDefName" },
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

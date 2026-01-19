@@ -1,0 +1,35 @@
+{
+  "/api/incidents/execute": {
+    "post": {
+      "tags": ["Incidents"],
+      "summary": "Execute an incident by defName",
+      "description": "Executes a RimWorld incident on the specified map. Optional parameters are best-effort; unsupported parameters may be ignored by the incident worker.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer", "format": "int32" },
+                "incidentDefName": { "type": "string" },
+                "forced": { "type": "boolean", "default": false },
+                "silent": { "type": "boolean", "default": true, "description": "When true, suppresses incident-generated letters/messages (best-effort)." },
+                "points": { "type": "number", "format": "float", "nullable": true },
+                "factionDefName": { "type": "string", "nullable": true },
+                "x": { "type": "integer", "format": "int32", "nullable": true },
+                "z": { "type": "integer", "format": "int32", "nullable": true }
+              },
+              "required": ["mapId", "incidentDefName"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Executed" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

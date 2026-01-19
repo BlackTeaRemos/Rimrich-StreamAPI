@@ -1,0 +1,77 @@
+{
+  // Variant-driven weather incident template.
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "weather_random_variants",
+  "label": "Weather (Random Variants)",
+  "cost": 320,
+  "probability": 1.0,
+  "tags": ["event", "weather", "variable"],
+
+  "notification": {
+    "delivery": "message",
+    "severity": { "$param": "variant.severity" },
+    "title": { "$param": "variant.title" },
+    "message": { "$param": "variant.message" }
+  },
+
+  "parameters": {
+    "mapId": { "distribution": { "kind": "fixed", "value": 0 } },
+    "variant": {
+      "distribution": {
+        "kind": "weighted_choice",
+        "values": [
+          {
+            "weight": 0.85,
+            "value": {
+              "title": "Heat Wave",
+              "message": "A heat wave was triggered by Twitch.",
+              "severity": "negative",
+              "incidentDefName": "HeatWave"
+            }
+          },
+          {
+            "weight": 0.85,
+            "value": {
+              "title": "Cold Snap",
+              "message": "A cold snap was triggered by Twitch.",
+              "severity": "negative",
+              "incidentDefName": "ColdSnap"
+            }
+          },
+          {
+            "weight": 1.0,
+            "value": {
+              "title": "Fog",
+              "message": "Fog was triggered by Twitch.",
+              "severity": "neutral",
+              "incidentDefName": "Fog"
+            }
+          },
+          {
+            "weight": 0.6,
+            "value": {
+              "title": "Flashstorm",
+              "message": "A flashstorm was triggered by Twitch.",
+              "severity": "negative",
+              "incidentDefName": "Flashstorm"
+            }
+          }
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "incidentDefName": { "$param": "variant.incidentDefName" },
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

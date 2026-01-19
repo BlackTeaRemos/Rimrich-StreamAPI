@@ -1,0 +1,12 @@
+{
+  "/api/ping": {
+    "get": {
+      "tags": ["Ping"],
+      "summary": "Returns a heartbeat",
+      "description": "Ping the embedded REST server",
+      "responses": {
+        "200": { "description": "Success" }
+      }
+    }
+  }
+}

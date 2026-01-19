@@ -1,0 +1,29 @@
+{
+  // Uses endpoint: POST /api/caravans/spawn
+  // NOTE: Set mapId and factionDefName to valid values (confirm via GET /api/factions).
+  "id": "event_caravan_trader_empire",
+  "label": "Empire Traders",
+  "cost": 220,
+  "userMessage": "Empire Traders",
+  "probability": 0.55,
+  "tags": ["event", "caravan", "trader"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "positive",
+    "title": "Empire Traders",
+    "message": "An Empire trader caravan arrived (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "Empire",
+        "silent": true,
+        "mode": "TraderCaravanArrival"
+      }
+    }
+  ]
+}

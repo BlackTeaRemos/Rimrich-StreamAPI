@@ -1,0 +1,38 @@
+{
+  "/api/pawns/{pawnId}/hediffs/add": {
+    "post": {
+      "tags": ["Pawns"],
+      "summary": "Add or update a hediff on a pawn",
+      "parameters": [
+        {
+          "name": "pawnId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" },
+          "description": "Pawn thing id (Pawn.thingIDNumber)."
+        }
+      ],
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "hediffDefName": { "type": "string" },
+                "severity": { "type": "number", "format": "float" }
+              },
+              "required": ["hediffDefName", "severity"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Applied" },
+        "400": { "description": "Invalid request" },
+        "404": { "description": "Pawn not found" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

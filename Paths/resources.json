@@ -1,0 +1,57 @@
+{
+  "/api/resources": {
+    "get": {
+      "tags": ["Resources"],
+      "summary": "Get basic resource totals",
+      "description": "Returns aggregated resource counts across loaded maps (based on resourceCounter).",
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mapCount": { "type": "integer", "format": "int32" },
+                  "silver": { "type": "integer", "format": "int32" },
+                  "steel": { "type": "integer", "format": "int32" },
+                  "wood": { "type": "integer", "format": "int32" },
+                  "components": { "type": "integer", "format": "int32" },
+                  "medicine": { "type": "integer", "format": "int32" },
+                  "meals": { "type": "integer", "format": "int32" },
+                  "packagedSurvivalMeals": { "type": "integer", "format": "int32" }
+                },
+                "required": [
+                  "mapCount",
+                  "silver",
+                  "steel",
+                  "wood",
+                  "components",
+                  "medicine",
+                  "meals",
+                  "packagedSurvivalMeals"
+                ]
+              },
+              "examples": {
+                "sample": {
+                  "summary": "Aggregated resources across all maps",
+                  "value": {
+                    "mapCount": 2,
+                    "silver": 1500,
+                    "steel": 3200,
+                    "wood": 900,
+                    "components": 24,
+                    "medicine": 18,
+                    "meals": 120,
+                    "packagedSurvivalMeals": 14
+                  }
+                }
+              }
+            }
+          }
+        },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

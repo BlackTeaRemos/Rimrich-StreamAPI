@@ -1,0 +1,22 @@
+{
+  "/api/pawns/kind/{kind}": {
+    "get": {
+      "tags": ["Pawns"],
+      "summary": "List pawns by kind defName",
+      "parameters": [
+        {
+          "name": "kind",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "string" },
+          "description": "Pawn kind defName (pawn.kindDef.defName)."
+        }
+      ],
+      "responses": {
+        "200": { "description": "Success" },
+        "400": { "description": "Invalid kind" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

@@ -1,0 +1,13 @@
+{
+  "/api/maps": {
+    "get": {
+      "tags": ["Maps"],
+      "summary": "List maps",
+      "description": "Returns basic information about currently loaded maps.",
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

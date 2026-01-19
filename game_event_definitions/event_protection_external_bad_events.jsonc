@@ -1,0 +1,26 @@
+{
+  // Uses endpoint: POST /api/protection/external-bad-events
+  // Blocks API-triggered threat incidents and raids for a duration.
+  "id": "event_protection_external_bad_events",
+  "label": "External Threat Shield",
+  "cost": 800,
+  "userMessage": "External Threat Shield",
+  "probability": 0.85,
+  "tags": ["event", "protection", "good"],
+  "notification": {
+    "delivery": "message",
+    "severity": "positive",
+    "title": "Protection Enabled",
+    "message": "A shield was activated against external threats."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/protection/external-bad-events",
+      "payload": "json",
+      "body": {
+        "durationSeconds": 180
+      }
+    }
+  ]
+}

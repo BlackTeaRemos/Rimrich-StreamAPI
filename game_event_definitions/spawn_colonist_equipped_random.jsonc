@@ -1,0 +1,18 @@
+{
+  // Uses endpoint: POST /api/colonists/create/budget
+  "id": "spawn_colonist_equipped_random",
+  "label": "Equipped Colonist Random",
+  "cost": 250,
+  "userMessage": "Equipped Colonist Random",
+  "probability": 0.6,
+  "tags": ["spawn", "colonist", "equipped"],
+  "notification": { "delivery": "message", "severity": "positive", "title": "Twitch", "message": "Spawn Colonist (Equipped, Random Quality)" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/colonists/create/budget",
+      "payload": "json",
+      "body": { "mapId": 0, "totalBudget": 360, "skillBudget": 220, "passionBudget": 100, "traitBudget": 40, "equipped": true }
+    }
+  ]
+}

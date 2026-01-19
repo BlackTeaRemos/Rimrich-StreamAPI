@@ -1,0 +1,30 @@
+{
+  "/api/locks": {
+    "post": {
+      "tags": ["Time"],
+      "summary": "Set a gameplay lock",
+      "description": "Sets or clears a lock. Currently supported lockId: pause.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "lockId": { "type": "string" },
+                "locked": { "type": "boolean" },
+                "durationSeconds": { "type": "integer", "format": "int32", "default": 0 }
+              },
+              "required": ["lockId", "locked"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Applied" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

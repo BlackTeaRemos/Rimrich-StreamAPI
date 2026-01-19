@@ -1,0 +1,33 @@
+{
+  // Uses endpoint: POST /api/raids/spawn
+  // NOTE: raidStrategyDefName/arrivalModeDefName are best-effort and may vary by game version.
+  "id": "event_raid_drop_pods_pirates",
+  "label": "Drop Pod Raid",
+  "cost": 500,
+  "userMessage": "Drop Pod Raid",
+  "probability": 0.35,
+  "tags": ["event", "raid", "drop"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Drop Raid",
+    "message": "A drop pod raid was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "Pirate",
+        "method": "Incident",
+        "silent": true,
+        "incidentDefName": "RaidEnemy",
+        "raidStrategyDefName": "ImmediateAttack",
+        "arrivalModeDefName": "CenterDrop",
+        "pointsFactor": 1.05
+      }
+    }
+  ]
+}

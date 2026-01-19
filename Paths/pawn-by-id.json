@@ -1,0 +1,23 @@
+{
+  "/api/pawns/{pawnId}": {
+    "get": {
+      "tags": ["Pawns"],
+      "summary": "Get pawn by id",
+      "parameters": [
+        {
+          "name": "pawnId",
+          "in": "path",
+          "required": true,
+          "schema": { "type": "integer" },
+          "description": "Pawn thing id (Pawn.thingIDNumber)."
+        }
+      ],
+      "responses": {
+        "200": { "description": "Success" },
+        "400": { "description": "Invalid pawnId" },
+        "404": { "description": "Pawn not found" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

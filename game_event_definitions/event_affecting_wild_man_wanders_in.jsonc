@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_affecting_wild_man_wanders_in",
+  "label": "Wild Man Wanders",
+  "userMessage": "Wild Man Wanders",
+  "cost": 150,
+  "probability": 0.7,
+  "tags": ["event", "affecting"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "neutral",
+    "title": "Wild Man",
+    "message": "A wild man wandered in (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "WildManWandersIn",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

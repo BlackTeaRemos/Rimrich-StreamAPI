@@ -1,0 +1,30 @@
+{
+  "/api/timespeed": {
+    "post": {
+      "tags": ["Time"],
+      "summary": "Alter the current time speed",
+      "description": "POST a JSON body with { \"speed\": \"Normal\" } to change the global pace.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "speed": {
+                  "type": "string",
+                  "description": "TimeSpeed enumeration (e.g. Normal, Fast, Superfast)."
+                }
+              },
+              "required": ["speed"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Speed applied" },
+        "400": { "description": "Speed not recognized" }
+      }
+    }
+  }
+}

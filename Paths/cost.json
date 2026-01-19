@@ -1,0 +1,187 @@
+{
+  "/api/cost": {
+    "post": {
+      "tags": ["Cost"],
+      "summary": "Estimate pawn costs",
+      "description": "Returns estimated market-value cost for the requested pawns (skills, apparel, weapon, inventory) plus affordability against the supplied availableCurrency.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "pawnIds": {
+                  "type": "array",
+                  "items": { "type": "integer", "format": "int32" },
+                  "description": "thingIDNumber values of pawns to evaluate"
+                },
+                "availableCurrency": {
+                  "type": "integer",
+                  "format": "int32",
+                  "description": "Available game currency (e.g., silver) used for affordability comparison; defaults to 0 when omitted"
+                }
+              },
+              "required": ["pawnIds"]
+            },
+            "examples": {
+              "sample": {
+                "summary": "Evaluate two pawns with 5000 silver on hand",
+                "value": {
+                  "pawnIds": [123, 124],
+                  "availableCurrency": 5000
+                }
+              }
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": {
+          "description": "Success",
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "availableCurrency": { "type": "integer", "format": "int32" },
+                  "totalCost": { "type": "integer", "format": "int32" },
+                  "affordability": {
+                    "type": "object",
+                    "properties": {
+                      "requiredCost": { "type": "integer", "format": "int32" },
+                      "availableCurrency": { "type": "integer", "format": "int32" },
+                      "difference": { "type": "integer", "format": "int32" },
+                      "shortfall": { "type": "integer", "format": "int32" },
+                      "surplus": { "type": "integer", "format": "int32" },
+                      "isAffordable": { "type": "boolean" }
+                    },
+                    "required": [
+                      "requiredCost",
+                      "availableCurrency",
+                      "difference",
+                      "shortfall",
+                      "surplus",
+                      "isAffordable"
+                    ]
+                  },
+                  "pawns": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "pawnId": { "type": "integer", "format": "int32" },
+                        "pawnName": { "type": "string" },
+                        "pawnKind": { "type": "string" },
+                        "pawnFaction": { "type": "string" },
+                        "mapId": { "type": "integer", "format": "int32", "nullable": true },
+                        "skillCost": { "type": "integer", "format": "int32" },
+                        "apparelCost": { "type": "integer", "format": "int32" },
+                        "weaponCost": { "type": "integer", "format": "int32" },
+                        "inventoryCost": { "type": "integer", "format": "int32" },
+                        "totalCost": { "type": "integer", "format": "int32" },
+                        "affordability": {
+                          "type": "object",
+                          "properties": {
+                            "requiredCost": { "type": "integer", "format": "int32" },
+                            "availableCurrency": { "type": "integer", "format": "int32" },
+                            "difference": { "type": "integer", "format": "int32" },
+                            "shortfall": { "type": "integer", "format": "int32" },
+                            "surplus": { "type": "integer", "format": "int32" },
+                            "isAffordable": { "type": "boolean" }
+                          },
+                          "required": [
+                            "requiredCost",
+                            "availableCurrency",
+                            "difference",
+                            "shortfall",
+                            "surplus",
+                            "isAffordable"
+                          ]
+                        }
+                      },
+                      "required": [
+                        "pawnId",
+                        "pawnName",
+                        "pawnKind",
+                        "pawnFaction",
+                        "skillCost",
+                        "apparelCost",
+                        "weaponCost",
+                        "inventoryCost",
+                        "totalCost",
+                        "affordability"
+                      ]
+                    }
+                  }
+                },
+                "required": ["availableCurrency", "totalCost", "affordability", "pawns"]
+              },
+              "examples": {
+                "sample": {
+                  "summary": "Two pawns with affordability rollup",
+                  "value": {
+                    "availableCurrency": 5000,
+                    "totalCost": 6200,
+                    "affordability": {
+                      "requiredCost": 6200,
+                      "availableCurrency": 5000,
+                      "difference": -1200,
+                      "shortfall": 1200,
+                      "surplus": 0,
+                      "isAffordable": false
+                    },
+                    "pawns": [
+                      {
+                        "pawnId": 123,
+                        "pawnName": "Dani",
+                        "pawnKind": "Mercenary",
+                        "pawnFaction": "PlayerColony",
+                        "mapId": 1,
+                        "skillCost": 1800,
+                        "apparelCost": 600,
+                        "weaponCost": 900,
+                        "inventoryCost": 100,
+                        "totalCost": 3400,
+                        "affordability": {
+                          "requiredCost": 3400,
+                          "availableCurrency": 5000,
+                          "difference": 1600,
+                          "shortfall": 0,
+                          "surplus": 1600,
+                          "isAffordable": true
+                        }
+                      },
+                      {
+                        "pawnId": 124,
+                        "pawnName": "Rena",
+                        "pawnKind": "Engineer",
+                        "pawnFaction": "PlayerColony",
+                        "mapId": 1,
+                        "skillCost": 1400,
+                        "apparelCost": 400,
+                        "weaponCost": 700,
+                        "inventoryCost": 300,
+                        "totalCost": 2800,
+                        "affordability": {
+                          "requiredCost": 2800,
+                          "availableCurrency": 5000,
+                          "difference": 2200,
+                          "shortfall": 0,
+                          "surplus": 2200,
+                          "isAffordable": true
+                        }
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          }
+        },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

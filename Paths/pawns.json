@@ -1,0 +1,13 @@
+{
+  "/api/pawns": {
+    "get": {
+      "tags": ["Pawns"],
+      "summary": "List spawned pawns",
+      "description": "Returns basic information about pawns currently spawned on loaded maps.",
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

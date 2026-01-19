@@ -1,0 +1,12 @@
+{
+  "/api/ticks": {
+    "get": {
+      "tags": ["Get ticks"],
+      "summary": "Current tick state",
+      "description": "Report game ticks, in-game days, current speed, and pause state.",
+      "responses": {
+        "200": { "description": "Success" }
+      }
+    }
+  }
+}

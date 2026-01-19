@@ -1,0 +1,36 @@
+{
+  "/api/raids/spawn": {
+    "post": {
+      "tags": ["Raids"],
+      "summary": "Spawn a raid",
+      "description": "Spawns a raid using Incident-based raids or DirectPawns spawning.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer" },
+                "factionDefName": { "type": "string" },
+                "method": { "type": "string", "description": "Incident | DirectPawns" },
+                "pointsFactor": { "type": "number" },
+                "pointsOverride": { "type": "number" },
+                "raidStrategyDefName": { "type": "string" },
+                "arrivalModeDefName": { "type": "string" },
+                "pawnKindDefName": { "type": "string", "description": "Required for DirectPawns" },
+                "pawnCount": { "type": "integer", "description": "Required for DirectPawns" }
+              },
+              "required": ["mapId", "factionDefName"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Spawned" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

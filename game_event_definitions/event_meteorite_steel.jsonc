@@ -1,0 +1,18 @@
+{
+  // Uses endpoint: POST /api/things/spawn
+  "id": "event_meteorite_steel",
+  "label": "Meteorite Steel",
+  "cost": 300,
+  "userMessage": "Meteorite Steel",
+  "probability": 0.55,
+  "tags": ["event", "meteorite", "resources"],
+  "notification": { "delivery": "message", "severity": "positive", "title": "Meteorite", "message": "Meteorite: Steel" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/things/spawn",
+      "payload": "json",
+      "body": { "mapId": 0, "thingDefName": "Steel", "count": 150, "mode": "DropPods" }
+    }
+  ]
+}

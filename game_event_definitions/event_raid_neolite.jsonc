@@ -1,0 +1,24 @@
+{
+  // Uses existing endpoint: POST /api/raids/spawn
+  // NOTE: This assumes you have a Neolite faction from a mod; confirm the real defName via GET /api/factions.
+  "id": "event_raid_neolite",
+  "label": "Neolite Raid",
+  "cost": 300,
+  "userMessage": "Neolite Raid",
+  "probability": 0.5,
+  "tags": ["event", "raid", "neolite"],
+  "notification": { "delivery": "letter", "severity": "negative", "title": "Raid (Neolite)", "message": "A raid was triggered by Twitch." },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "NeoliteFaction", // placeholder
+        "method": "Incident",
+        "pointsFactor": 1.0
+      }
+    }
+  ]
+}

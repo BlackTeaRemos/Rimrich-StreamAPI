@@ -1,0 +1,24 @@
+{
+  // Uses existing endpoint: POST /api/raids/spawn
+  // NOTE: Set mapId and factionDefName to valid values (confirm via GET /api/factions).
+  "id": "event_raid_modern",
+  "label": "Modern Raid",
+  "cost": 400,
+  "userMessage": "Modern Raid",
+  "probability": 0.7,
+  "tags": ["event", "raid", "modern"],
+  "notification": { "delivery": "letter", "severity": "negative", "title": "Raid (Modern)", "message": "A raid was triggered by Twitch." },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "OutlanderRough", // placeholder
+        "method": "Incident",
+        "pointsFactor": 1.05
+      }
+    }
+  ]
+}

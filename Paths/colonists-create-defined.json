@@ -1,0 +1,30 @@
+{
+  "/api/colonists/create/defined": {
+    "post": {
+      "tags": ["Colonists"],
+      "summary": "Create a colonist with explicit skills/traits",
+      "description": "Creates a colonist and applies explicit skills (level+passion) and traits (defName+degree).",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer", "format": "int32" },
+                "equipped": { "type": "boolean" },
+                "name": { "type": "string", "nullable": true }
+              },
+              "required": ["mapId", "equipped"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Created" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

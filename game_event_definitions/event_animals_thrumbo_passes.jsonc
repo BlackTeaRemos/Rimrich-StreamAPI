@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_animals_thrumbo_passes",
+  "label": "Thrumbo Passes",
+  "cost": 300,
+  "userMessage": "Thrumbo Passes",
+  "probability": 0.2,
+  "tags": ["event", "animals", "rare"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "positive",
+    "title": "Thrumbo",
+    "message": "Thrumbos were triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "ThrumboPasses",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

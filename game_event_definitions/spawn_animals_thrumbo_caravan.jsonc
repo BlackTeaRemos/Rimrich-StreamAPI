@@ -1,0 +1,24 @@
+{
+  // Uses existing endpoint: POST /api/caravans/spawn
+  // NOTE: Set mapId and factionDefName to valid values for your save/modlist.
+  "id": "spawn_animals_thrumbo_caravan",
+  "label": "Thrumbo Caravan",
+  "cost": 800,
+  "userMessage": "Thrumbo Caravan",
+  "probability": 0.05,
+  "tags": ["spawn", "animals", "caravan", "rare"],
+  "notification": { "delivery": "message", "severity": "positive", "title": "Twitch", "message": "Spawn Animals: Thrumbo (Caravan)" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "OutlanderCivil", // placeholder; confirm via GET /api/factions
+        "pawnKindDefName": "Thrumbo", // placeholder; confirm via GET /api/pawns/kinds
+        "pawnCount": 1
+      }
+    }
+  ]
+}

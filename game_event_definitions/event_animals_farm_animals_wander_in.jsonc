@@ -1,0 +1,28 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_animals_farm_animals_wander_in",
+  "label": "Farm Animals Wander",
+  "userMessage": "Farm Animals Wander",
+  "cost": 160,
+  "probability": 0.9,
+  "tags": ["event", "animals"],
+  "notification": {
+    "delivery": "message",
+    "severity": "positive",
+    "title": "Farm Animals",
+    "message": "Farm animals wandered in (triggered by Twitch)."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "FarmAnimalsWanderIn",
+        "forced": true,
+        "silent": true
+      }
+    }
+  ]
+}

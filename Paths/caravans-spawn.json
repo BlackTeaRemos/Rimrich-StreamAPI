@@ -1,0 +1,41 @@
+{
+  "/api/caravans/spawn": {
+    "post": {
+      "tags": ["Caravans"],
+      "summary": "Spawn a caravan at map edge",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer" },
+                "factionDefName": { "type": "string" },
+                "pawnKindDefName": { "type": "string", "description": "Optional pawn kind for caravan members" },
+                "pawnCount": { "type": "integer", "description": "Defaults to 3" },
+                "cargo": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "thingDefName": { "type": "string" },
+                      "count": { "type": "integer" }
+                    }
+                  },
+                  "description": "Optional cargo items to place in caravan inventory."
+                }
+              },
+              "required": ["mapId", "factionDefName"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Success" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

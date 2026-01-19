@@ -1,0 +1,13 @@
+{
+  "/api/factions": {
+    "get": {
+      "tags": ["Factions"],
+      "summary": "List factions",
+      "description": "Returns all known factions with player/hostile flags.",
+      "responses": {
+        "200": { "description": "Success" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

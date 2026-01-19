@@ -1,0 +1,27 @@
+{
+  // Uses existing endpoint: POST /api/caravans/spawn
+  // NOTE: Set mapId and factionDefName to valid values for your save/modlist.
+  "id": "spawn_weapons_trader_caravan",
+  "label": "Weapons Caravan",
+  "cost": 350,
+  "userMessage": "Weapons Caravan",
+  "probability": 0.9,
+  "tags": ["spawn", "items", "weapon", "caravan"],
+  "notification": { "delivery": "message", "severity": "positive", "title": "Twitch", "message": "Spawn Weapons (Trader Caravan)" },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "OutlanderCivil", // placeholder; confirm via GET /api/factions
+        "pawnCount": 3,
+        "cargo": [
+          { "thingDefName": "Gun_AssaultRifle", "count": 1 },
+          { "thingDefName": "Gun_Pistol", "count": 2 }
+        ]
+      }
+    }
+  ]
+}

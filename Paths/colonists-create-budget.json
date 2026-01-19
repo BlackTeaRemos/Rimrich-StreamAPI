@@ -1,0 +1,34 @@
+{
+  "/api/colonists/create/budget": {
+    "post": {
+      "tags": ["Colonists"],
+      "summary": "Create a colonist using a point budget",
+      "description": "Creates a colonist using a budget distributed into skills, passions (interests) and traits (perks).",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer", "format": "int32" },
+                "totalBudget": { "type": "integer", "format": "int32" },
+                "skillBudget": { "type": "integer", "format": "int32", "nullable": true },
+                "passionBudget": { "type": "integer", "format": "int32", "nullable": true },
+                "traitBudget": { "type": "integer", "format": "int32", "nullable": true },
+                "equipped": { "type": "boolean" },
+                "name": { "type": "string", "nullable": true }
+              },
+              "required": ["mapId", "totalBudget", "equipped"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Created" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

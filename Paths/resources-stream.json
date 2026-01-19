@@ -1,0 +1,41 @@
+{
+  "/api/resources/stream": {
+    "get": {
+      "tags": ["Resources"],
+      "summary": "Stream resource snapshots",
+      "description": "Streams newline-delimited server-sent events with aggregated resource counts across loaded maps.",
+      "parameters": [
+        {
+          "name": "samples",
+          "in": "query",
+          "description": "Number of snapshots to stream before closing (default 30, min 1, max 600).",
+          "required": false,
+          "schema": { "type": "integer", "format": "int32", "default": 30, "minimum": 1, "maximum": 600 }
+        },
+        {
+          "name": "intervalMs",
+          "in": "query",
+          "description": "Delay between snapshots in milliseconds (default 1000, min 100, max 60000).",
+          "required": false,
+          "schema": { "type": "integer", "format": "int32", "default": 1000, "minimum": 100, "maximum": 60000 }
+        }
+      ],
+      "responses": {
+        "200": {
+          "description": "Event stream started",
+          "content": {
+            "text/event-stream": {
+              "examples": {
+                "sample": {
+                  "summary": "Server-sent events with resource snapshots",
+                  "value": "event: resources\ndata: {\"mapCount\":2,\"silver\":1500,\"steel\":3200,\"wood\":900,\"components\":24,\"medicine\":18,\"meals\":120,\"packagedSurvivalMeals\":14}\n\n"
+                }
+              }
+            }
+          }
+        },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

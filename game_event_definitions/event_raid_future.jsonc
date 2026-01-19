@@ -1,0 +1,24 @@
+{
+  // Uses existing endpoint: POST /api/raids/spawn
+  // NOTE: Set mapId and factionDefName to valid values (confirm via GET /api/factions).
+  "id": "event_raid_future",
+  "label": "Future Raid",
+  "cost": 550,
+  "userMessage": "Future Raid",
+  "probability": 0.55,
+  "tags": ["event", "raid", "future"],
+  "notification": { "delivery": "letter", "severity": "negative", "title": "Raid (Future)", "message": "A raid was triggered by Twitch." },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/raids/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "factionDefName": "SpacerHostile", // placeholder
+        "method": "Incident",
+        "pointsFactor": 1.1
+      }
+    }
+  ]
+}

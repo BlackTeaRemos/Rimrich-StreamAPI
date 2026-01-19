@@ -1,0 +1,19 @@
+{
+  "/api/raids/preview": {
+    "get": {
+      "tags": ["Raids"],
+      "summary": "Preview raid strength inputs",
+      "description": "Returns base threat points for a map (colony-size dependent) and the applied points after optional factor/override.",
+      "parameters": [
+        { "name": "mapId", "in": "query", "required": false, "schema": { "type": "integer" } },
+        { "name": "pointsFactor", "in": "query", "required": false, "schema": { "type": "number" } },
+        { "name": "pointsOverride", "in": "query", "required": false, "schema": { "type": "number" } }
+      ],
+      "responses": {
+        "200": { "description": "Success" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

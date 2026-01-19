@@ -1,0 +1,60 @@
+{
+  // Variable event template example.
+  // Spawns a caravan with a random cargo pack.
+  // Uses existing endpoint: POST /api/caravans/spawn
+  "id": "caravan_random_cargo",
+  "label": "Spawn Caravan (Random Cargo)",
+  "cost": 220,
+  "probability": 0.7,
+  "tags": ["spawn", "caravan", "items", "variable"],
+
+  "parameters": {
+    "mapId": {
+      "distribution": { "kind": "fixed", "value": 0 }
+    },
+    "factionDefName": {
+      "description": "Pick a faction defName that exists in your save/mods",
+      "distribution": {
+        "kind": "choice",
+        "values": ["OutlanderCivil", "OutlanderRough"]
+      }
+    },
+    "pawnCount": {
+      "distribution": { "kind": "int_range", "min": 2, "max": 4 }
+    },
+    "cargo": {
+      "description": "Random cargo pack (list of objects)",
+      "distribution": {
+        "kind": "choice",
+        "values": [
+          [
+            { "thingDefName": "Steel", "count": 150 },
+            { "thingDefName": "ComponentIndustrial", "count": 6 }
+          ],
+          [
+            { "thingDefName": "MedicineIndustrial", "count": 10 },
+            { "thingDefName": "MealSimple", "count": 25 }
+          ],
+          [
+            { "thingDefName": "Gun_Pistol", "count": 1 },
+            { "thingDefName": "Apparel_Duster", "count": 1 }
+          ]
+        ]
+      }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/caravans/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "factionDefName": { "$param": "factionDefName" },
+        "pawnCount": { "$param": "pawnCount" },
+        "cargo": { "$param": "cargo" }
+      }
+    }
+  ]
+}

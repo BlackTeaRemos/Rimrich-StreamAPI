@@ -1,0 +1,12 @@
+{
+  "/api/colonists": {
+    "get": {
+      "tags": ["Colonists"],
+      "summary": "List colonists",
+      "description": "Returns names and roles of colonists currently present.",
+      "responses": {
+        "200": { "description": "Success" }
+      }
+    }
+  }
+}

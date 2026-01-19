@@ -1,0 +1,29 @@
+{
+  // Uses endpoint: POST /api/incidents/execute
+  "id": "event_weather_tornado",
+  "label": "Tornado",
+  "cost": 400,
+  "userMessage": "Tornado",
+  "probability": 0.4,
+  "tags": ["event", "weather", "danger"],
+  "notification": {
+    "delivery": "letter",
+    "severity": "negative",
+    "title": "Tornado",
+    "message": "A tornado was triggered by Twitch."
+  },
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/incidents/execute",
+      "payload": "json",
+      "body": {
+        "mapId": 0,
+        "incidentDefName": "Tornado",
+        "forced": true,
+        "silent": true,
+        "points": 900
+      }
+    }
+  ]
+}

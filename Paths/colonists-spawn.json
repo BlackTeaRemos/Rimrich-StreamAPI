@@ -1,0 +1,35 @@
+{
+  "/api/colonists/spawn": {
+    "post": {
+      "tags": ["Colonists"],
+      "summary": "Spawn a new colonist",
+      "description": "Spawns a new player-faction colonist on the specified map edge.",
+      "requestBody": {
+        "required": true,
+        "content": {
+          "application/json": {
+            "schema": {
+              "type": "object",
+              "properties": {
+                "mapId": { "type": "integer", "format": "int32" },
+                "quality": {
+                  "type": "string",
+                  "enum": ["Random", "Worst", "Bad", "Normal", "Good", "Best"],
+                  "default": "Random"
+                },
+                "equipped": { "type": "boolean" },
+                "name": { "type": "string", "nullable": true }
+              },
+              "required": ["mapId", "quality", "equipped"]
+            }
+          }
+        }
+      },
+      "responses": {
+        "200": { "description": "Spawned" },
+        "400": { "description": "Invalid request" },
+        "503": { "description": "Game context is not available yet" }
+      }
+    }
+  }
+}

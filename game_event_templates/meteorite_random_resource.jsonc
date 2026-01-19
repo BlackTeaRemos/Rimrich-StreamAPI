@@ -1,0 +1,42 @@
+{
+  // Variable event template example.
+  // Generates a random resource type and randomizes the meteorite count.
+  // Uses endpoint: POST /api/things/spawn
+  "id": "meteorite_random_resource",
+  "label": "Meteorite (Random Resource)",
+  "cost": 360,
+  "probability": 0.4,
+  "tags": ["event", "meteorite", "variable"],
+
+  "parameters": {
+    "mapId": {
+      "description": "Target map unique id",
+      "distribution": { "kind": "fixed", "value": 0 }
+    },
+    "thingDefName": {
+      "description": "Which resource to spawn",
+      "distribution": {
+        "kind": "choice",
+        "values": ["Steel", "ComponentIndustrial", "Plasteel", "Gold", "Uranium", "Jade"]
+      }
+    },
+    "count": {
+      "description": "How many items to spawn",
+      "distribution": { "kind": "int_range", "min": 25, "max": 150 }
+    }
+  },
+
+  "requests": [
+    {
+      "method": "POST",
+      "path": "/api/things/spawn",
+      "payload": "json",
+      "body": {
+        "mapId": { "$param": "mapId" },
+        "thingDefName": { "$param": "thingDefName" },
+        "count": { "$param": "count" },
+        "mode": "DropPods"
+      }
+    }
+  ]
+}
