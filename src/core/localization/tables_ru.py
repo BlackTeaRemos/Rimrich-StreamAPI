@@ -41,11 +41,26 @@ def BuildRussianTable() -> LocalizationTable:
             "balances.column.balance": "Баланс",
             "balances.empty": "Балансов пока нет",
 
+            # Earnings tab
+            "earnings.title": "Начисление серебра",
+            "earnings.button.refresh": "Обновить",
+            "earnings.button.apply": "Применить",
+            "earnings.label.chat": "Серебро за сообщение",
+            "earnings.label.vote": "Серебро за голос",
+            "earnings.label.cooldown": "Задержка награды (сек)",
+            "earnings.help": "Изменения применяются сразу и влияют только на новые начисления. Балансы задним числом не меняются.",
+            "earnings.status.saved": "Сохранено",
+            "earnings.status.error": "Проверьте значения",
+            "earnings.error.title": "Неверные значения",
+            "earnings.error.invalid": "Введите числовые значения.",
+            "earnings.error.negative": "Значения должны быть не ниже нуля.",
+
             # Settings window
             "settings.title": "Настройки",
             "settings.tab.twitch": "Twitch",
             "settings.tab.overlay": "Оверлей",
             "settings.tab.rimworld": "RimWorld",
+            "settings.tab.earnings": "Начисления",
             "settings.twitch.channel": "Канал",
             "settings.twitch.botUsername": "Имя бота",
             "settings.twitch.oauthToken": "OAuth токен",
@@ -124,9 +139,13 @@ def BuildRussianTable() -> LocalizationTable:
 
             # Events editor tab
             "events.editor.templates": "Шаблоны",
+            "events.editor.search": "Поиск",
             "events.editor.button.copyJson": "Коп. JSON",
             "events.editor.button.execute": "Выполнить",
             "events.editor.button.refreshLists": "Обновить списки",
+            "events.editor.details.title": "Детали",
+            "events.editor.badge.templateId": "Id: {templateId}",
+            "events.editor.badge.modified": "Изменено",
             "events.editor.preview.title": "Сгенерированный JSON",
             "events.editor.parameters.endpoint": "Эндпоинт: {endpoint}",
             "events.editor.status.refreshedLookups": "Списки обновлены",

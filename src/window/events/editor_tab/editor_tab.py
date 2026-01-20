@@ -40,8 +40,13 @@ class EditorTab:
         self._detailsText: tk.Text | None = None
         self._templateTitleVar: tk.StringVar | None = None
         self._templateDescriptionVar: tk.StringVar | None = None
+        self._templateIdVar: tk.StringVar | None = None
+        self._dirtyVar: tk.StringVar | None = None
 
         self._parametersHost: tk.Frame | None = None
+        self._parametersCanvas: tk.Canvas | None = None
+        self._parametersScrollFrame: tk.Frame | None = None
+        self._parametersScrollbar: ttk.Scrollbar | None = None
         self._activeTemplate: EditorEventTemplate | None = None
         self._activeParameters: List[EditorTemplateParameter] = []
 
@@ -75,6 +80,13 @@ class EditorTab:
             font=("Segoe UI Semibold", 10),
         ).pack(side=tk.LEFT)
 
+        tk.Label(
+            header,
+            text=self.__Text("events.editor.search", default="Search"),
+            bg=palette.surfaceDeep,
+            fg=palette.textFaint,
+        ).pack(side=tk.RIGHT, padx=(0, 6))
+
         self._filterVar = tk.StringVar(value="")
         filterEntry = tk.Entry(header, textvariable=self._filterVar, bg=palette.button, fg=palette.text, insertbackground=palette.text, relief=tk.FLAT)
         filterEntry.pack(side=tk.RIGHT, fill=tk.X, expand=True, padx=(8, 0))
@@ -83,7 +95,7 @@ class EditorTab:
         listFrame = tk.Frame(left, bg=palette.surfaceDeep)
         listFrame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
 
-        scrollbar = tk.Scrollbar(listFrame, orient="vertical")
+        scrollbar = ttk.Scrollbar(listFrame, orient="vertical", style="App.Vertical.TScrollbar")
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         self._listbox = tk.Listbox(
@@ -103,11 +115,33 @@ class EditorTab:
         # Right: template header + parameters + preview
         self._templateTitleVar = tk.StringVar(value="")
         self._templateDescriptionVar = tk.StringVar(value="")
+        self._templateIdVar = tk.StringVar(value="")
+        self._dirtyVar = tk.StringVar(value="")
 
         titleRow = tk.Frame(right, bg=palette.surface)
         titleRow.pack(fill=tk.X, padx=8, pady=(8, 4))
 
         tk.Label(titleRow, textvariable=self._templateTitleVar, bg=palette.surface, fg=palette.text, font=("Segoe UI Semibold", 11)).pack(side=tk.LEFT, fill=tk.X, expand=True)
+
+        templateIdBadge = tk.Label(
+            titleRow,
+            textvariable=self._templateIdVar,
+            bg=palette.surfaceDeep,
+            fg=palette.textFaint,
+            padx=8,
+            pady=2,
+        )
+        templateIdBadge.pack(side=tk.RIGHT, padx=(6, 0))
+
+        dirtyBadge = tk.Label(
+            titleRow,
+            textvariable=self._dirtyVar,
+            bg=palette.surfaceDeep,
+            fg=palette.accent,
+            padx=8,
+            pady=2,
+        )
+        dirtyBadge.pack(side=tk.RIGHT, padx=(6, 0))
 
         actionRow = tk.Frame(right, bg=palette.surface)
         actionRow.pack(fill=tk.X, padx=8, pady=(0, 6))
@@ -128,24 +162,73 @@ class EditorTab:
         refreshListsButton.pack(side=tk.LEFT)
         self._refreshListsButton = refreshListsButton
 
-        tk.Label(right, textvariable=self._templateDescriptionVar, bg=palette.surface, fg=palette.textFaint, wraplength=520, justify=tk.LEFT).pack(fill=tk.X, padx=8, pady=(0, 8))
+        content = ttk.PanedWindow(right, orient=tk.HORIZONTAL)
+        content.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
 
-        self._parametersHost = tk.Frame(right, bg=palette.surface)
-        self._parametersHost.pack(fill=tk.X, padx=0, pady=(0, 8))
+        parametersPane = tk.Frame(content, bg=palette.surface)
+        previewPane = tk.Frame(content, bg=palette.surface)
+        content.add(parametersPane, weight=2)
+        content.add(previewPane, weight=3)
 
-        previewFrame = tk.Frame(right, bg=palette.surface)
-        previewFrame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
+        parametersContainer = tk.Frame(parametersPane, bg=palette.surface)
+        parametersContainer.pack(fill=tk.BOTH, expand=True, padx=0, pady=(0, 8))
+        parametersContainer.columnconfigure(0, weight=1)
+        parametersContainer.rowconfigure(0, weight=1)
+
+        self._parametersCanvas = tk.Canvas(
+            parametersContainer,
+            bg=palette.surface,
+            highlightthickness=0,
+            bd=0,
+        )
+        self._parametersCanvas.grid(row=0, column=0, sticky="nsew")
+
+        self._parametersScrollbar = ttk.Scrollbar(parametersContainer, orient="vertical", style="App.Vertical.TScrollbar")
+        self._parametersScrollbar.grid(row=0, column=1, sticky="ns")
+
+        self._parametersCanvas.configure(yscrollcommand=self._parametersScrollbar.set)
+        self._parametersScrollbar.config(command=self._parametersCanvas.yview)
+
+        self._parametersScrollFrame = tk.Frame(self._parametersCanvas, bg=palette.surface)
+        self._parametersCanvas.create_window((0, 0), window=self._parametersScrollFrame, anchor="nw")
+
+        self._parametersHost = self._parametersScrollFrame
+        self._parametersHost.bind("<Configure>", lambda event: self.__ConfigureParametersScroll())
+        self._parametersCanvas.bind("<Configure>", lambda event: self.__ConfigureParametersWidth())
+        self.__BindScrollWheel(self._parametersCanvas)
+        self.__BindScrollWheel(self._parametersHost)
+
+        helpFrame = tk.Frame(previewPane, bg=palette.surfaceDeep)
+        helpFrame.pack(fill=tk.X, pady=(0, 8))
+
+        tk.Label(
+            helpFrame,
+            text=self.__Text("events.editor.details.title", default="Details"),
+            bg=palette.surfaceDeep,
+            fg=palette.text,
+            font=("Segoe UI Semibold", 10),
+        ).pack(anchor="w", padx=8, pady=(8, 2))
+
+        tk.Label(
+            helpFrame,
+            textvariable=self._templateDescriptionVar,
+            bg=palette.surfaceDeep,
+            fg=palette.textFaint,
+            wraplength=420,
+            justify=tk.LEFT,
+        ).pack(anchor="w", padx=8, pady=(0, 8))
+
+        previewFrame = tk.Frame(previewPane, bg=palette.surface)
+        previewFrame.pack(fill=tk.BOTH, expand=True)
 
         previewHeader = tk.Frame(previewFrame, bg=palette.surface)
         previewHeader.pack(fill=tk.X)
-        tk.Label(previewHeader, text=self.__Text("events.editor.preview.title", default="Generated JSON"), bg=palette.surface, fg=palette.text).pack(
-            side=tk.LEFT
-        )
+        tk.Label(previewHeader, text=self.__Text("events.editor.preview.title", default="Generated JSON"), bg=palette.surface, fg=palette.text).pack(side=tk.LEFT)
 
         previewTextFrame = tk.Frame(previewFrame, bg=palette.surface)
         previewTextFrame.pack(fill=tk.BOTH, expand=True, pady=(6, 0))
 
-        previewScroll = tk.Scrollbar(previewTextFrame, orient="vertical")
+        previewScroll = ttk.Scrollbar(previewTextFrame, orient="vertical", style="App.Vertical.TScrollbar")
         previewScroll.pack(side=tk.RIGHT, fill=tk.Y)
 
         self._detailsText = tk.Text(
@@ -231,6 +314,9 @@ class EditorTab:
             self._templateTitleVar.set(template.title)
         if self._templateDescriptionVar is not None:
             self._templateDescriptionVar.set(template.description)
+        if self._templateIdVar is not None:
+            self._templateIdVar.set(self.__Text("events.editor.badge.templateId", default=f"Id: {template.templateId}", templateId=template.templateId))
+        self.__SetDirty(False)
 
         self.__BuildParameters(template)
         self.__RenderPreview()
@@ -266,7 +352,9 @@ class EditorTab:
 
         for parameter in template.BuildParameters():
             self._activeParameters.append(parameter)
-            parameter.Build(host, onChanged=self.__RenderPreview)
+            parameter.Build(host, onChanged=self.__OnParameterChanged)
+
+        self.__ConfigureParametersScroll()
 
     def __GetEndpointText(self) -> str:
         try:
@@ -345,6 +433,77 @@ class EditorTab:
 
         self._detailsText.delete("1.0", tk.END)
         self._detailsText.insert(tk.END, rendered)
+
+    def __ConfigureParametersScroll(self) -> None:
+        canvas = self._parametersCanvas
+        host = self._parametersHost
+        if canvas is None or host is None:
+            return
+        try:
+            canvas.configure(scrollregion=canvas.bbox("all"))
+        except Exception:
+            pass
+
+    def __ConfigureParametersWidth(self) -> None:
+        canvas = self._parametersCanvas
+        host = self._parametersHost
+        if canvas is None or host is None:
+            return
+        try:
+            canvas.itemconfigure("all", width=canvas.winfo_width())
+        except Exception:
+            pass
+
+    def __BindScrollWheel(self, widget: tk.Widget) -> None:
+        try:
+            widget.bind("<MouseWheel>", self.__OnMouseWheel, add="+")
+            widget.bind("<Button-4>", self.__OnMouseWheelLinuxUp, add="+")
+            widget.bind("<Button-5>", self.__OnMouseWheelLinuxDown, add="+")
+        except Exception:
+            pass
+
+    def __OnMouseWheel(self, event: tk.Event) -> None:
+        canvas = self._parametersCanvas
+        if canvas is None:
+            return
+        delta = getattr(event, "delta", 0)
+        if not delta:
+            return
+        direction = -1 if delta > 0 else 1
+        try:
+            canvas.yview_scroll(direction, "units")
+        except Exception:
+            pass
+
+    def __OnMouseWheelLinuxUp(self, event: tk.Event) -> None:
+        canvas = self._parametersCanvas
+        if canvas is None:
+            return
+        try:
+            canvas.yview_scroll(-1, "units")
+        except Exception:
+            pass
+
+    def __OnMouseWheelLinuxDown(self, event: tk.Event) -> None:
+        canvas = self._parametersCanvas
+        if canvas is None:
+            return
+        try:
+            canvas.yview_scroll(1, "units")
+        except Exception:
+            pass
+
+    def __OnParameterChanged(self) -> None:
+        self.__SetDirty(True)
+        self.__RenderPreview()
+
+    def __SetDirty(self, isDirty: bool) -> None:
+        if self._dirtyVar is None:
+            return
+        if isDirty:
+            self._dirtyVar.set(self.__Text("events.editor.badge.modified", default="Modified"))
+        else:
+            self._dirtyVar.set("")
 
     def __CopyJson(self) -> None:
         document = self.__BuildDocument()

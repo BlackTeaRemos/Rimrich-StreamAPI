@@ -96,7 +96,7 @@ class CatalogTab:
         listFrame = tk.Frame(left, bg=palette.surfaceDeep)
         listFrame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
 
-        treeScrollbar = ttk.Scrollbar(listFrame, orient="vertical")
+        treeScrollbar = ttk.Scrollbar(listFrame, orient="vertical", style="App.Vertical.TScrollbar")
         treeScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         columns = ("type", "label", "id", "cost", "prob")
@@ -158,7 +158,7 @@ class CatalogTab:
         detailsFrame = tk.Frame(right, bg=palette.button)
         detailsFrame.pack(fill=tk.BOTH, expand=True, padx=8, pady=(0, 8))
 
-        scrollbar = tk.Scrollbar(detailsFrame)
+        scrollbar = ttk.Scrollbar(detailsFrame, orient="vertical", style="App.Vertical.TScrollbar")
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         self._details = tk.Text(

@@ -41,11 +41,26 @@ def BuildEnglishTable() -> LocalizationTable:
             "balances.column.balance": "Balance",
             "balances.empty": "No balances recorded yet",
 
+            # Earnings tab
+            "earnings.title": "Silver earnings",
+            "earnings.button.refresh": "Refresh",
+            "earnings.button.apply": "Apply",
+            "earnings.label.chat": "Silver per chat message",
+            "earnings.label.vote": "Silver per poll vote",
+            "earnings.label.cooldown": "Chat reward cooldown (seconds)",
+            "earnings.help": "Updates apply immediately and only affect new earnings. Balances are not modified retroactively.",
+            "earnings.status.saved": "Saved",
+            "earnings.status.error": "Check values",
+            "earnings.error.title": "Invalid values",
+            "earnings.error.invalid": "Please enter numeric values.",
+            "earnings.error.negative": "Values must be zero or higher.",
+
             # Settings window
             "settings.title": "Settings",
             "settings.tab.twitch": "Twitch",
             "settings.tab.overlay": "Overlay",
             "settings.tab.rimworld": "RimWorld",
+            "settings.tab.earnings": "Earnings",
             "settings.twitch.channel": "Channel",
             "settings.twitch.botUsername": "Bot username",
             "settings.twitch.oauthToken": "OAuth token",
@@ -124,9 +139,13 @@ def BuildEnglishTable() -> LocalizationTable:
 
             # Events editor tab
             "events.editor.templates": "Templates",
+            "events.editor.search": "Search",
             "events.editor.button.copyJson": "Copy JSON",
             "events.editor.button.execute": "Execute",
             "events.editor.button.refreshLists": "Refresh Lists",
+            "events.editor.details.title": "Details",
+            "events.editor.badge.templateId": "Id: {templateId}",
+            "events.editor.badge.modified": "Modified",
             "events.editor.preview.title": "Generated JSON",
             "events.editor.parameters.endpoint": "Endpoint: {endpoint}",
             "events.editor.status.refreshedLookups": "Refreshed lookups",

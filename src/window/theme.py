@@ -117,6 +117,40 @@ class Theme:
                 foreground=[("disabled", palette.textFaint)],
             )
 
+            style.configure(
+                "App.Vertical.TScrollbar",
+                gripcount=0,
+                background=palette.button,
+                troughcolor=palette.surfaceAlt,
+                bordercolor=palette.surfaceAlt,
+                lightcolor=palette.buttonHover,
+                darkcolor=palette.buttonHover,
+                arrowcolor=palette.textFaint,
+                relief="flat",
+            )
+            style.map(
+                "App.Vertical.TScrollbar",
+                background=[("active", palette.buttonHover)],
+                arrowcolor=[("active", palette.text)],
+            )
+
+            style.configure(
+                "App.Horizontal.TScrollbar",
+                gripcount=0,
+                background=palette.button,
+                troughcolor=palette.surfaceAlt,
+                bordercolor=palette.surfaceAlt,
+                lightcolor=palette.buttonHover,
+                darkcolor=palette.buttonHover,
+                arrowcolor=palette.textFaint,
+                relief="flat",
+            )
+            style.map(
+                "App.Horizontal.TScrollbar",
+                background=[("active", palette.buttonHover)],
+                arrowcolor=[("active", palette.text)],
+            )
+
             # Progress bars (used as a busy indicator)
             style.configure(
                 "Busy.Horizontal.TProgressbar",
@@ -153,5 +187,24 @@ class Theme:
 
             bindMethod("<Enter>", onEnter)
             bindMethod("<Leave>", onLeave)
+        except Exception:
+            pass
+
+    @staticmethod
+    def ConfigureScrollbar(scrollbar: object) -> None:
+        """Configure a tk.Scrollbar with app palette colors."""
+
+        palette = Theme.Palette
+        try:
+            configureMethod = getattr(scrollbar, "configure", None)
+            if callable(configureMethod):
+                configureMethod(
+                    bg=palette.button,
+                    troughcolor=palette.surfaceAlt,
+                    activebackground=palette.buttonHover,
+                    highlightthickness=0,
+                    bd=0,
+                    relief="flat",
+                )
         except Exception:
             pass

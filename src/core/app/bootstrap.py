@@ -84,7 +84,7 @@ def Bootstrap(projectRoot: Path) -> None:
     )
 
     chatWindow = ChatWindowService(uiScheduler, localizerProvider)
-    settingsWindow = SettingsWindow(settingsService, localizerProvider)
+    settingsWindow = SettingsWindow(settingsService, silverEarningService, localizerProvider)
 
     mainWindowService = MainWindowService(
         eventBus,

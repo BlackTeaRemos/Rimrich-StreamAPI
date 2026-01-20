@@ -54,7 +54,7 @@ class BalancesTabController:
         listFrame = tk.Frame(body, bg=palette.surfaceDeep)
         listFrame.grid(row=0, column=0, sticky="nsew")
 
-        treeScrollbar = ttk.Scrollbar(listFrame, orient="vertical")
+        treeScrollbar = ttk.Scrollbar(listFrame, orient="vertical", style="App.Vertical.TScrollbar")
         treeScrollbar.pack(side=tk.RIGHT, fill=tk.Y)
 
         columns = ("user", "balance")

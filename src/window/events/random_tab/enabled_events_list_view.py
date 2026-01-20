@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import tkinter as tk
+from tkinter import ttk
 from typing import Callable, List, Tuple
 
 from src.window.events.random_tab.enabled_events_list_state import EnabledEventRow
@@ -78,7 +79,7 @@ class EnabledEventsListView:
             font=("Segoe UI", 10),
             exportselection=False,
         )
-        scrollbar = tk.Scrollbar(body, orient="vertical", command=listbox.yview)
+        scrollbar = ttk.Scrollbar(body, orient="vertical", command=listbox.yview, style="App.Vertical.TScrollbar")
         listbox.configure(yscrollcommand=scrollbar.set)
         listbox.pack(side=tk.LEFT, fill=tk.BOTH, expand=True)
         scrollbar.pack(side=tk.RIGHT, fill=tk.Y)

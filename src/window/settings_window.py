@@ -4,6 +4,8 @@ from typing import Optional
 
 from src.core.settings.settings_service import SettingsService
 from src.core.localization.localizer_provider import LocalizerProvider
+from src.purchases.interfaces.silver_earning_service_interface import SilverEarningServiceInterface
+from src.window.earnings.earnings_tab_controller import EarningsTabController
 from src.window.busy_button_task import BusyButtonTask
 from src.window.theme import Theme
 
@@ -16,8 +18,14 @@ class SettingsWindow:
         localizerProvider (LocalizerProvider | None): optional localizer provider.
     """
 
-    def __init__(self, service: SettingsService, localizerProvider: LocalizerProvider | None = None) -> None:
+    def __init__(
+        self,
+        service: SettingsService,
+        silverEarningService: SilverEarningServiceInterface,
+        localizerProvider: LocalizerProvider | None = None,
+    ) -> None:
         self.service = service  # settings manager
+        self._silverEarningService = silverEarningService
         self._localizerProvider = localizerProvider or LocalizerProvider(service)
         self._localizer = self._localizerProvider.Get()
         self._window: Optional[tk.Toplevel] = None  # dialog window
@@ -31,6 +39,7 @@ class SettingsWindow:
         self._rimApiHostVar: Optional[tk.StringVar] = None  # rim api host
         self._rimApiPortVar: Optional[tk.IntVar] = None  # rim api port
         self._uiLanguageVar: Optional[tk.StringVar] = None
+        self._earningsController: EarningsTabController | None = None
 
     def Show(self, parent: tk.Tk) -> None:
         """Open the settings dialog.
@@ -50,7 +59,7 @@ class SettingsWindow:
 
         self._window = tk.Toplevel(parent)
         self._window.title(self._localizer.Text("settings.title"))
-        self._window.geometry("360x360")
+        self._window.geometry("420x420")
         Theme.Apply(self._window)
         self._window.transient(parent)
         self._window.resizable(True, True)
@@ -95,9 +104,11 @@ class SettingsWindow:
         twitchTab = tk.Frame(tabs, bg=palette.surface)
         overlayTab = tk.Frame(tabs, bg=palette.surface)
         rimworldTab = tk.Frame(tabs, bg=palette.surface)
+        earningsTab = tk.Frame(tabs, bg=palette.surface)
         tabs.add(twitchTab, text=self._localizer.Text("settings.tab.twitch"))
         tabs.add(overlayTab, text=self._localizer.Text("settings.tab.overlay"))
         tabs.add(rimworldTab, text=self._localizer.Text("settings.tab.rimworld"))
+        tabs.add(earningsTab, text=self._localizer.Text("settings.tab.earnings"))
 
         # Twitch
         channelLabel = tk.Label(twitchTab, text=self._localizer.Text("settings.twitch.channel"), bg=palette.surface, fg=palette.text, font=("Segoe UI", 10))
@@ -173,6 +184,10 @@ class SettingsWindow:
         rimApiLabel.pack(anchor="w", padx=6)
         rimApiSpin = tk.Spinbox(rimworldTab, from_=0, to=65535, textvariable=self._rimApiPortVar, bg=palette.button, fg=palette.text, insertbackground=palette.text, relief=tk.FLAT)
         rimApiSpin.pack(fill=tk.X, padx=6, pady=(0, 10))
+
+        # Earnings
+        self._earningsController = EarningsTabController(self._silverEarningService, self._localizer)
+        self._earningsController.Build(earningsTab)
 
         actions = tk.Frame(outer, bg=palette.surface)
         actions.pack(fill=tk.X, side=tk.BOTTOM, pady=(10, 0))

@@ -24,20 +24,7 @@ from src.window.balances.balances_tab_controller import BalancesTabController
 
 
 class MainWindowService:
-    """Create and control the primary application window.
-
-    Args:
-        eventBus (EventBus): shared event bus.
-        overlayService (Service): overlay controller.
-        settingsWindow (SettingsWindow): settings dialog.
-        settingsService (SettingsService): settings manager.
-        twitchService (TwitchChatService): twitch chat manager.
-        chatWindow (ChatWindowService): chat log window.
-        eventsWindow (EventsWindowService): events window.
-        balanceService (BalanceServiceInterface): balance service provider.
-        uiScheduler (UiThreadScheduler | None): optional UI thread scheduler.
-        localizerProvider (LocalizerProvider | None): optional localizer provider.
-    """
+    """MainWindowService creates and controls the primary application window Args: eventBus (EventBus): shared event bus example EventBus() overlayService (BorderlessWindowService): overlay controller example BorderlessWindowService(EventBus()) twitchService (TwitchChatService): chat connector example TwitchChatService(settingsService, EventBus()) chatWindow (ChatWindowService): chat log window example ChatWindowService(EventBus()) Returns: MainWindowService: configured window service example MainWindowService(EventBus(), BorderlessWindowService(EventBus()), SettingsWindow(service), SettingsService(repo, EventBus()), TwitchChatService(SettingsService(repo, EventBus()), EventBus()), ChatWindowService(EventBus()))"""
 
     def __init__(
         self,
@@ -73,11 +60,7 @@ class MainWindowService:
         self._balancesTabController: BalancesTabController | None = None
 
     def ShowWindow(self) -> None:
-        """Build and show the main window, then enter its event loop.
-
-        Returns:
-            None
-        """
+        """ShowWindow builds the bordered main window and enters its event loop Args: None Returns: None"""
 
         if self._root is not None:
             return
@@ -99,11 +82,7 @@ class MainWindowService:
         self._root.mainloop()
 
     def CloseWindow(self) -> None:
-        """Destroy the main window if it exists and stop the UI scheduler.
-
-        Returns:
-            None
-        """
+        """CloseWindow destroys the main window if it exists Args: None Returns: None"""
 
         if self._root is None:
             return
@@ -119,11 +98,7 @@ class MainWindowService:
         self._root = None
 
     def __ConfigureContents(self) -> None:
-        """Build header and controls for the main window and initialize tabs.
-
-        Returns:
-            None
-        """
+        """__ConfigureContents builds header and controls for the main window Args: None Returns: None"""
 
         root = self._root
         if root is None:
@@ -171,26 +146,23 @@ class MainWindowService:
         tabs = self._tabs
         if tabs is None:
             return
-        tabs.bind("<<NotebookTabChanged>>", lambda event: self.__RefreshBalancesIfSelected())
+        tabs.bind("<<NotebookTabChanged>>", lambda event: self.__RefreshTabsIfSelected())
 
-    def __RefreshBalancesIfSelected(self) -> None:
+    def __RefreshTabsIfSelected(self) -> None:
         tabs = self._tabs
         balancesTabFrame = self._balancesTabFrame
-        controller = self._balancesTabController
-        if tabs is None or balancesTabFrame is None or controller is None:
+        balancesController = self._balancesTabController
+        if tabs is None:
             return
         try:
-            if tabs.select() == str(balancesTabFrame):
-                controller.Refresh()
+            selected = tabs.select()
+            if balancesTabFrame is not None and balancesController is not None and selected == str(balancesTabFrame):
+                balancesController.Refresh()
         except Exception:
             return
 
     def __HandleShowOverlay(self) -> None:
-        """Publish a request to display the overlay with sample votes for testing.
-
-        Returns:
-            None
-        """
+        """__HandleShowOverlay publishes a request to display the overlay with sample votes Args: None Returns: None"""
 
         sampleVotes: List[Tuple[str, int]] = [
             ("Option A", 12),
@@ -202,44 +174,28 @@ class MainWindowService:
         self.eventBus.Publish(ShowOverlayEvent(sampleVotes))
 
     def __HandleOpenSettings(self) -> None:
-        """Open the settings dialog when requested from the UI.
-
-        Returns:
-            None
-        """
+        """__HandleOpenSettings opens the settings dialog Args: None Returns: None"""
 
         if self._root is None:
             return
         self.settingsWindow.Show(self._root)
 
     def __HandleOpenChat(self) -> None:
-        """Open the chat log window when requested from the UI.
-
-        Returns:
-            None
-        """
+        """__HandleOpenChat opens chat log window Args: None Returns: None"""
 
         if self._root is None:
             return
         self.chatWindow.ShowWindow(self._root)
 
     def __HandleOpenEvents(self) -> None:
-        """Open the events window when requested from the UI.
-
-        Returns:
-            None
-        """
+        """__HandleOpenEvents opens events window Args: None Returns: None"""
 
         if self._root is None:
             return
         self.eventsWindow.ShowWindow(self._root)
 
     def __HandleTestConnect(self) -> None:
-        """Trigger a reconnect attempt to the Twitch chat listener for testing.
-
-        Returns:
-            None
-        """
+        """__HandleTestConnect restarts twitch chat listener Args: None Returns: None"""
 
         self.__HandleConnect()
 
@@ -295,35 +251,17 @@ class MainWindowService:
             self._statusVar.set(safeText)
 
     def UpdatePreview(self, votes: List[Tuple[str, int]]) -> None:
-        """Mirror overlay votes into the embedded preview canvas.
-
-        Args:
-            votes (list[tuple[str, int]]): entries to display, e.g. [("Option A", 3)].
-
-        Returns:
-            None
-        """
+        """UpdatePreview mirrors overlay votes into the embedded canvas Args: votes (list[tuple[str, int]]): entries to display example [("Option A", 3)] Returns: None"""
 
         return
 
     def ClearPreview(self) -> None:
-        """Clear the embedded preview canvas.
-
-        Returns:
-            None
-        """
+        """ClearPreview wipes the embedded preview canvas Args: None Returns: None"""
 
         return
 
     def SetBorderlessOption(self, enabled: bool) -> None:
-        """Sync the borderless option checkbox to the provided value.
-
-        Args:
-            enabled (bool): borderless toggle.
-
-        Returns:
-            None
-        """
+        """SetBorderlessOption syncs the checkbox to provided value Args: enabled (bool): borderless toggle example True Returns: None"""
 
         return
 

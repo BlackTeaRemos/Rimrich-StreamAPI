@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import tkinter as tk
+from tkinter import ttk
 from typing import Callable, Dict, List
 
 from src.game_events.game_event_catalog_service import GameEventCatalogService
@@ -76,7 +77,7 @@ class TagsPanelController:
         body.pack(fill=tk.BOTH, expand=True)
 
         canvas = tk.Canvas(body, bg=palette.surfaceDeep, highlightthickness=0)
-        scrollbar = tk.Scrollbar(parent, orient="vertical", command=canvas.yview)
+        scrollbar = ttk.Scrollbar(body, orient="vertical", command=canvas.yview, style="App.Vertical.TScrollbar")
         scrollable = tk.Frame(canvas, bg=palette.surfaceDeep)
         scrollable.bind("<Configure>", lambda event: canvas.configure(scrollregion=canvas.bbox("all")))
         canvas.create_window((0, 0), window=scrollable, anchor="nw")
